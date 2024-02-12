@@ -1,0 +1,31 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- Services -->
+    <bean id="userService" class="com.example.UserService" />
+    <bean id="eventService" class="com.example.EventService" />
+    <bean id="ticketService" class="com.example.TicketService" />
+
+    <!-- Bean for the facade and wire its dependencies -->
+    <bean id="bookingFacade" class="com.example.BookingFacadeImpl">
+        <constructor-arg name="userService" ref="userService" />
+        <constructor-arg name="eventService" ref="eventService" />
+        <constructor-arg name="ticketService" ref="ticketService" />
+    </bean>
+
+    <!-- Beans for DAOs and other components -->
+    <bean id="eventDao" class="com.example.demo.dao.EventDao" />
+    <bean id="ticketDao" class="com.example.demo.dao.TicketDao" />
+    <bean id="userDao" class="com.example.demo.dao.UserDao" />
+
+
+    <!-- In a modern Spring project, if you're using Spring Boot, PropertyPlaceholderConfigurer
+    is included by default and you don't need to define it explicitly in the XML configuration -->
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location">
+            <value>classpath:application.properties</value>
+        </property>
+    </bean>
+</beans>

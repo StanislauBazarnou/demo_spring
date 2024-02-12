@@ -1,0 +1,18 @@
+[
+  {
+    "ticketId": 1,
+    "userId": 1,
+    "eventId": 2,
+    "eventDateTime": "2024-04-27T21:00:00",
+    "seatNumber": 23,
+    "price": 50.0
+  },
+  {
+    "ticketId": 2,
+    "userId": 2,
+    "eventId": 1,
+    "eventDateTime": "2024-05-27T21:00:00",
+    "seatNumber": 12,
+    "price": 75.0
+  }
+]

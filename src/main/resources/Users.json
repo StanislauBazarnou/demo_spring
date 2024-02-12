@@ -1,0 +1,17 @@
+[
+  {
+    "userId": 1,
+    "userName": "John Doe",
+    "passportData": "345672345US"
+  },
+  {
+    "userId": 2,
+    "userName": "Jane Doe",
+    "passportData": "987654321US"
+  },
+  {
+    "userId": 3,
+    "userName": "Alice Smith",
+    "passportData": "123456789US"
+  }
+]
