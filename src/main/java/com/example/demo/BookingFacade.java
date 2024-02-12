@@ -8,10 +8,10 @@ import java.time.LocalDateTime;
 
 public interface BookingFacade {
     User createUser(String username, String password);
-    User getUser(long userId);
+    User getUserById(long userId);
     Event createEvent(String eventName, LocalDateTime eventDateTime);
-    Event getEvent(long eventId);
+    Event getEventById(long eventId);
     Ticket bookTicket(long userId, long eventId, int seatNumber, LocalDateTime eventDateTime);
-    Ticket getTicket(long ticketId);
+    Ticket getTicketById(long ticketId);
     void cancelTicket(long ticketId);
 }
