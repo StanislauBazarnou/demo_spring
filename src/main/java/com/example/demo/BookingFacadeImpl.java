@@ -34,8 +34,8 @@ public class BookingFacadeImpl implements BookingFacade {
     }
 
     @Override
-    public User getUser(long userId) {
-        return null;
+    public User getUserById(long userId) {
+        return userService.getUser(userId);
     }
 
     @Override
@@ -44,8 +44,8 @@ public class BookingFacadeImpl implements BookingFacade {
     }
 
     @Override
-    public Event getEvent(long eventId) {
-        return null;
+    public Event getEventById(long eventId) {
+        return eventService.getEvent(eventId);
     }
 
     @Override
@@ -54,8 +54,8 @@ public class BookingFacadeImpl implements BookingFacade {
     }
 
     @Override
-    public Ticket getTicket(long ticketId) {
-        return null;
+    public Ticket getTicketById(long ticketId) {
+        return ticketService.getTicket(ticketId);
     }
 
     @Override
