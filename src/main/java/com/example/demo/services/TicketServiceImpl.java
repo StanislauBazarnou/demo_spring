@@ -2,6 +2,7 @@ package com.example.demo.services;
 
 import com.example.demo.dao.TicketDao;
 import com.example.demo.model.Ticket;
+import com.example.demo.model.TicketKey;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
@@ -22,11 +23,13 @@ public class TicketServiceImpl implements TicketService {
         ticket.setEventDateTime(eventDateTime);
         ticket.setUserId(userId);
         ticket.setEventId(eventId);
-        log.info("Ticked is booked: {}", ticket);
-        return ticketDao.putTicket(ticket.getTicketId(), ticket);
+        log.info("Ticket is booked: {}", ticket);
+        TicketKey ticketKey = new TicketKey(ticket.getTicketId());
+        return ticketDao.putTicket(ticketKey, ticket);
     }
 
     public Ticket getTicket(long ticketId) {
-        return ticketDao.getTicketById(ticketId);
+        TicketKey ticketKey = new TicketKey(ticketId);
+        return ticketDao.getTicketById(ticketKey);
     }
 }
