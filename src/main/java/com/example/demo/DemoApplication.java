@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.example.demo.services.BookingFacade;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;

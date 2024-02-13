@@ -2,7 +2,7 @@ package com.example.demo;
 
 import com.example.demo.dao.UserDao;
 import com.example.demo.model.User;
-import com.example.demo.services.UserService;
+import com.example.demo.services.UserServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,12 +16,12 @@ import static org.mockito.Mockito.*;
 class UserServiceTest {
 
     private UserDao userDao;
-    private UserService userService;
+    private UserServiceImpl userServiceImpl;
 
     @BeforeEach
     void setUp() {
         userDao = Mockito.mock(UserDao.class);
-        userService = new UserService(userDao);
+        userServiceImpl = new UserServiceImpl(userDao);
     }
 
     @Test
@@ -31,7 +31,7 @@ class UserServiceTest {
         String password = "TestPass";
 
         // when
-        userService.createUser(userName, password);
+        userServiceImpl.createUser(userName, password);
 
         // then
         verify(userDao, times(1)).save(any(User.class));

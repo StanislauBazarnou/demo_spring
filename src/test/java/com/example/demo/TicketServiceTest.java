@@ -2,7 +2,7 @@ package com.example.demo;
 
 import com.example.demo.dao.TicketDao;
 import com.example.demo.model.Ticket;
-import com.example.demo.services.TicketService;
+import com.example.demo.services.TicketServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -22,7 +22,7 @@ class TicketServiceTest {
     private TicketDao ticketDao;
 
     @InjectMocks
-    private TicketService ticketService;
+    private TicketServiceImpl ticketServiceImpl;
 
 
     @Test
@@ -39,7 +39,7 @@ class TicketServiceTest {
 
         // when
         when(ticketDao.save(any(Ticket.class))).thenReturn(ticket); // when a ticket is saved, return it
-        Ticket bookedTicket = ticketService.bookTicket(23, LocalDateTime.of(2024, 10, 10, 10, 10), 1, 1);
+        Ticket bookedTicket = ticketServiceImpl.bookTicket(23, LocalDateTime.of(2024, 10, 10, 10, 10), 1, 1);
 
         // then assert that the bookedTicket returned is the same object as ticket
         assertEquals(ticket, bookedTicket);

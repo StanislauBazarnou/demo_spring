@@ -4,15 +4,15 @@
     http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <!-- Services -->
-    <bean id="userService" class="com.example.UserService" />
-    <bean id="eventService" class="com.example.EventService" />
-    <bean id="ticketService" class="com.example.TicketService" />
+    <bean id="userServiceImpl" class="com.example.UserService" />
+    <bean id="eventServiceImpl" class="com.example.EventService" />
+    <bean id="ticketServiceImpl" class="com.example.TicketService" />
 
     <!-- Bean for the facade and wire its dependencies -->
     <bean id="bookingFacade" class="com.example.BookingFacadeImpl">
-        <constructor-arg name="userService" ref="userService" />
-        <constructor-arg name="eventService" ref="eventService" />
-        <constructor-arg name="ticketService" ref="ticketService" />
+        <constructor-arg name="userServiceImpl" ref="userServiceImpl" />
+        <constructor-arg name="eventServiceImpl" ref="eventServiceImpl" />
+        <constructor-arg name="ticketServiceImpl" ref="ticketServiceImpl" />
     </bean>
 
     <!-- Beans for DAOs and other components -->

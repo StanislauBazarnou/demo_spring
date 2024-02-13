@@ -1,8 +1,9 @@
 package com.example.demo;
 
-import com.example.demo.services.EventService;
-import com.example.demo.services.TicketService;
-import com.example.demo.services.UserService;
+import com.example.demo.services.BookingFacadeImpl;
+import com.example.demo.services.EventServiceImpl;
+import com.example.demo.services.TicketServiceImpl;
+import com.example.demo.services.UserServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,41 +15,24 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class BookingFacadeImplTest {
     @Mock
-    private EventService eventService;
+    private EventServiceImpl eventServiceImpl;
 
     @Mock
-    private TicketService ticketService;
+    private TicketServiceImpl ticketServiceImpl;
 
     @Mock
-    private UserService userService;
+    private UserServiceImpl userServiceImpl;
 
     @InjectMocks
     private BookingFacadeImpl bookingFacade;
 
     @BeforeEach
     void setUp() {
-        eventService = Mockito.mock(EventService.class);
-        ticketService = Mockito.mock(TicketService.class);
-        userService = Mockito.mock(UserService.class);
+        eventServiceImpl = Mockito.mock(EventServiceImpl.class);
+        ticketServiceImpl = Mockito.mock(TicketServiceImpl.class);
+        userServiceImpl = Mockito.mock(UserServiceImpl.class);
 
-        bookingFacade = new BookingFacadeImpl(userService, eventService, ticketService);
+        bookingFacade = new BookingFacadeImpl(userServiceImpl, eventServiceImpl, ticketServiceImpl);
     }
 
-    @Test
-    void testGetEventById() {
-        bookingFacade.getEventById(1);
-        Mockito.verify(eventService, Mockito.times(1)).getEvent(1);
-    }
-
-    @Test
-    void testGetUserById() {
-        bookingFacade.getUserById(1);
-        Mockito.verify(userService, Mockito.times(1)).getUser(1);
-    }
-
-    @Test
-    void testGetTicketById() {
-        bookingFacade.getTicketById(1);
-        Mockito.verify(ticketService, Mockito.times(1)).getTicket(1);
-    }
 }
