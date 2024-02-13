@@ -7,24 +7,23 @@ import java.time.LocalDateTime;
 
 public class BookingFacadeImpl implements BookingFacade {
 
-    private final UserServiceImpl userServiceImpl;
-    private final EventServiceImpl eventServiceImpl;
-    private final TicketServiceImpl ticketServiceImpl;
+    private final UserService userService;
+    private final EventService eventService;
+    private final TicketService ticketService;
 
-
-    public BookingFacadeImpl(UserServiceImpl userServiceImpl, EventServiceImpl eventServiceImpl, TicketServiceImpl ticketServiceImpl) {
-        this.userServiceImpl = userServiceImpl;
-        this.eventServiceImpl = eventServiceImpl;
-        this.ticketServiceImpl = ticketServiceImpl;
+    public BookingFacadeImpl(UserService userService, EventService eventService, TicketService ticketService) {
+        this.userService = userService;
+        this.eventService = eventService;
+        this.ticketService = ticketService;
     }
 
     @Override
     public void bookEvent(User user, Event event, int seatNumber) {
-        userServiceImpl.getUser(user.getUserId());
-        eventServiceImpl.createEvent(event.getEventName(), event.getEventDate());
-        long userId = user.getUserId();
-        long eventId = event.getEventId();
-        LocalDateTime eventDateTime = event.getEventDate();
-        ticketServiceImpl.bookTicket(seatNumber, eventDateTime, userId, eventId);
+        User actualUser = userService.getUser(user.getUserId());
+        Event actualEvent = eventService.createEvent(event.getEventName(), event.getEventDate());
+        long userId = actualUser.getUserId();
+        long eventId = actualEvent.getEventId();
+        LocalDateTime eventDateTime = actualEvent.getEventDate();
+        ticketService.bookTicket(seatNumber, eventDateTime, userId, eventId);
     }
 }

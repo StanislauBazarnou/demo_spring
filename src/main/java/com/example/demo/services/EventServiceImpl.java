@@ -12,10 +12,6 @@ public class EventServiceImpl implements EventService {
 
     private EventDao eventDao;
 
-    /**
-     * An example of setter-based injection. You can use setter-based injection for the services as
-     * they have single dependencies
-     */
     @Autowired
     public void setEventDao(EventDao eventDao) {
         this.eventDao = eventDao;
@@ -25,6 +21,7 @@ public class EventServiceImpl implements EventService {
         Event event = new Event();
         event.setEventName(eventName);
         event.setEventDate(date);
+        eventDao.save(event);
         log.info("Event is created: {}", event);
         return event;
     }

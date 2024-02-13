@@ -23,10 +23,10 @@ public class TicketServiceImpl implements TicketService {
         ticket.setUserId(userId);
         ticket.setEventId(eventId);
         log.info("Ticked is booked: {}", ticket);
-        return ticketDao.save(ticket);
+        return ticketDao.putTicket(ticket.getTicketId(), ticket);
     }
 
     public Ticket getTicket(long ticketId) {
-        return ticketDao.getById(ticketId);
+        return ticketDao.getTicketById(ticketId);
     }
 }

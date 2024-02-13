@@ -15,8 +15,8 @@ public class TicketDao {
         return storage.getTicketMap().get(id);
     }
 
-    public void putTicket(Long id, Ticket ticket) {
-        storage.getTicketMap().put(id, ticket);
+    public Ticket putTicket(Long id, Ticket ticket) {
+        return storage.getTicketMap().put(id, ticket);
     }
 
     public Ticket removeTicket(Long id) {
