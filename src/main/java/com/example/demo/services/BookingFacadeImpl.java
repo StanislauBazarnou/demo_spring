@@ -2,9 +2,11 @@ package com.example.demo.services;
 
 import com.example.demo.model.Event;
 import com.example.demo.model.User;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
 
+@Slf4j
 public class BookingFacadeImpl implements BookingFacade {
 
     private final UserService userService;
@@ -25,5 +27,6 @@ public class BookingFacadeImpl implements BookingFacade {
         long eventId = actualEvent.getEventId();
         LocalDateTime eventDateTime = actualEvent.getEventDate();
         ticketService.bookTicket(seatNumber, eventDateTime, userId, eventId);
+        log.info("Event is booked: {}", event);
     }
 }

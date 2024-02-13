@@ -3,7 +3,9 @@ package com.example.demo.dao;
 import com.example.demo.Storage;
 import com.example.demo.model.Ticket;
 import com.example.demo.model.TicketKey;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class TicketDao {
     private final Storage storage;
 
@@ -16,6 +18,7 @@ public class TicketDao {
     }
 
     public Ticket putTicket(TicketKey id, Ticket ticket) {
+        log.info("Ticket put to the storage: {}", ticket);
         return storage.getTicketMap().put(id, ticket);
     }
 

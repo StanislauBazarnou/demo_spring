@@ -20,6 +20,7 @@ public class EventDao {
     public void save(Event event) {
         EventKey eventKey = new EventKey(event.getEventId());
         eventMap.put(eventKey, event);
+        log.info("Event saved to the storage: {}", event);
     }
 
     public Event getById(long id) {
