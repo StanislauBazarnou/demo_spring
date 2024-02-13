@@ -2,9 +2,11 @@ package com.example.demo;
 
 import com.example.demo.dao.TicketDao;
 import com.example.demo.model.Ticket;
-import com.example.demo.services.TicketService;
+import com.example.demo.model.TicketKey;
+import com.example.demo.services.TicketServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -12,7 +14,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -22,14 +23,12 @@ class TicketServiceTest {
     private TicketDao ticketDao;
 
     @InjectMocks
-    private TicketService ticketService;
-
+    private TicketServiceImpl ticketServiceImpl;
 
     @Test
     void testBookTicket() {
         // given
         Ticket ticket = Ticket.builder()
-                .userId(1)
                 .userId(1)
                 .eventId(1)
                 .eventDateTime(LocalDateTime.of(2024, 10, 10, 10, 10))
@@ -37,14 +36,21 @@ class TicketServiceTest {
                 .price(49)
                 .build();
 
+        TicketKey ticketKey = new TicketKey(ticket.getTicketId()); // Create TicketKey
+
+        // Set up ArgumentCaptor
+        ArgumentCaptor<TicketKey> ticketKeyArgumentCaptor = ArgumentCaptor.forClass(TicketKey.class);
+        ArgumentCaptor<Ticket> ticketArgumentCaptor = ArgumentCaptor.forClass(Ticket.class);
+
         // when
-        when(ticketDao.save(any(Ticket.class))).thenReturn(ticket); // when a ticket is saved, return it
-        Ticket bookedTicket = ticketService.bookTicket(23, LocalDateTime.of(2024, 10, 10, 10, 10), 1, 1);
+        when(ticketDao.putTicket(ticketKeyArgumentCaptor.capture(), ticketArgumentCaptor.capture())).thenReturn(ticket);
+        Ticket bookedTicket = ticketServiceImpl.bookTicket(23, LocalDateTime.of(2024, 10, 10, 10, 10), 1, 1);
+
+        // assert that arguments passed to ticketDao.putTicket have expected properties
+        assertEquals(ticketKeyArgumentCaptor.getValue().id(), ticket.getTicketId());
+        assertEquals(ticketArgumentCaptor.getValue().getUserId(), ticket.getUserId());
 
         // then assert that the bookedTicket returned is the same object as ticket
         assertEquals(ticket, bookedTicket);
-        // then verify that ticketDao.save() was actually called with any Ticket object argument
-        verify(ticketDao, times(1)).save(any(Ticket.class));
     }
-
 }

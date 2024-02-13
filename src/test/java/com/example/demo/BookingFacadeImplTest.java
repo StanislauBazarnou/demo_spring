@@ -1,54 +1,59 @@
 package com.example.demo;
 
+import com.example.demo.model.Event;
+import com.example.demo.model.User;
+import com.example.demo.services.BookingFacadeImpl;
 import com.example.demo.services.EventService;
 import com.example.demo.services.TicketService;
 import com.example.demo.services.UserService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.time.LocalDateTime;
+
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class BookingFacadeImplTest {
+
+    @Mock
+    private UserService userService;
+
     @Mock
     private EventService eventService;
 
     @Mock
     private TicketService ticketService;
 
-    @Mock
-    private UserService userService;
-
     @InjectMocks
-    private BookingFacadeImpl bookingFacade;
+    private BookingFacadeImpl bookingFacadeImpl;
 
-    @BeforeEach
-    void setUp() {
-        eventService = Mockito.mock(EventService.class);
-        ticketService = Mockito.mock(TicketService.class);
-        userService = Mockito.mock(UserService.class);
-
-        bookingFacade = new BookingFacadeImpl(userService, eventService, ticketService);
-    }
 
     @Test
-    void testGetEventById() {
-        bookingFacade.getEventById(1);
-        Mockito.verify(eventService, Mockito.times(1)).getEvent(1);
-    }
+    void testBookEvent() {
+        // given
+        User user = new User();
+        user.setUserId(1);
 
-    @Test
-    void testGetUserById() {
-        bookingFacade.getUserById(1);
-        Mockito.verify(userService, Mockito.times(1)).getUser(1);
-    }
+        Event event = new Event();
+        event.setEventId(1);
+        event.setEventDate(LocalDateTime.now());
 
-    @Test
-    void testGetTicketById() {
-        bookingFacade.getTicketById(1);
-        Mockito.verify(ticketService, Mockito.times(1)).getTicket(1);
+        int seatNumber = 23;
+
+        when(userService.getUser(user.getUserId())).thenReturn(user);
+        when(eventService.createEvent(event.getEventName(), event.getEventDate())).thenReturn(event);
+
+        // when
+        bookingFacadeImpl.bookEvent(user, event, seatNumber);
+
+        // then
+        verify(userService, times(1)).getUser(user.getUserId());
+        verify(eventService, times(1)).createEvent(event.getEventName(), event.getEventDate());
+        verify(ticketService, times(1))
+                .bookTicket(seatNumber, event.getEventDate(), user.getUserId(), event.getEventId());
     }
 }

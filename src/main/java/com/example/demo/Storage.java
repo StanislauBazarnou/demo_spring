@@ -1,8 +1,6 @@
 package com.example.demo;
 
-import com.example.demo.model.Event;
-import com.example.demo.model.Ticket;
-import com.example.demo.model.User;
+import com.example.demo.model.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.PostConstruct;
 import lombok.Getter;
@@ -25,9 +23,9 @@ public class Storage {
     @Value("${path.to.events}")
     private String pathToEvents;
 
-    private final Map<Long, User> userMap = new HashMap<>();
-    private final Map<Long, Event> eventMap = new HashMap<>();
-    private final Map<Long, Ticket> ticketMap = new HashMap<>();
+    private final Map<UserKey, User> userMap = new HashMap<>();
+    private final Map<EventKey, Event> eventMap = new HashMap<>();
+    private final Map<TicketKey, Ticket> ticketMap = new HashMap<>();
 
     @PostConstruct
     public void initUserData() {
@@ -36,7 +34,8 @@ public class Storage {
         try {
             User[] users = mapper.readValue(new File(pathToUsers), User[].class);
             for (User user : users) {
-                userMap.put(user.getUserId(), user);
+                UserKey userKey = new UserKey(user.getUserId());
+                userMap.put(userKey, user);
             }
         } catch (IOException e) {
             throw new RuntimeException("Error initializing data from file", e);
@@ -65,7 +64,8 @@ public class Storage {
         try {
             Ticket[] tickets = mapper.readValue(new File(pathToTickets), Ticket[].class);
             for (Ticket ticket : tickets) {
-                ticketMap.put(ticket.getUserId(), ticket);
+                TicketKey ticketKey = new TicketKey(ticket.getTicketId());
+                ticketMap.put(ticketKey, ticket);
             }
         } catch (IOException e) {
             throw new RuntimeException("Error initializing data from file", e);
@@ -79,7 +79,8 @@ public class Storage {
         try {
             Event[] events = mapper.readValue(new File(pathToEvents), Event[].class);
             for (Event event : events) {
-                eventMap.put(event.getEventId(), event);
+                EventKey eventKey = new EventKey(event.getEventId());
+                eventMap.put(eventKey, event);
             }
         } catch (IOException e) {
             throw new RuntimeException("Error initializing data from file", e);

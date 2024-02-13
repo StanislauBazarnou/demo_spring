@@ -2,24 +2,29 @@ package com.example.demo.dao;
 
 import com.example.demo.Storage;
 import com.example.demo.model.Event;
+import com.example.demo.model.EventKey;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Map;
 
+@Slf4j
 public class EventDao {
-    private final Map<Long, Event> eventMap;
+    private final Map<EventKey, Event> eventMap;
 
     @Autowired
     public EventDao(Storage database) {
         this.eventMap = database.getEventMap();
     }
 
-    public Event save(Event event) {
-        eventMap.put(event.getEventId(), event);
-        return event;
+    public void save(Event event) {
+        EventKey eventKey = new EventKey(event.getEventId());
+        eventMap.put(eventKey, event);
+        log.info("Event saved to the storage: {}", event);
     }
 
     public Event getById(long id) {
-        return eventMap.get(id);
+        EventKey eventKey = new EventKey(id);
+        return eventMap.get(eventKey);
     }
 }
