@@ -2,6 +2,7 @@ package com.example.demo;
 
 import com.example.demo.model.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.annotation.PostConstruct;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -10,7 +11,10 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Component
@@ -25,6 +29,7 @@ public class Storage {
 
     private final Map<UserKey, User> userMap = new HashMap<>();
     private final Map<EventKey, Event> eventMap = new HashMap<>();
+    private final Map<EventKeyByDate, Event> eventDateMap = new HashMap<>();
     private final Map<TicketKey, Ticket> ticketMap = new HashMap<>();
 
     @PostConstruct
@@ -38,7 +43,7 @@ public class Storage {
                 userMap.put(userKey, user);
             }
         } catch (IOException e) {
-            throw new RuntimeException("Error initializing data from file", e);
+            throw new RuntimeException("Error initializing User data from file", e);
         }
         log.info("Init Users Data");
     }
@@ -50,6 +55,7 @@ public class Storage {
      */
     public void writeToFile() {
         ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
         List<User> userList = new ArrayList<>(userMap.values());
         try {
             mapper.writeValue(new File("users.json"), userList);
@@ -61,6 +67,7 @@ public class Storage {
     @PostConstruct
     public void initTicketsData() {
         ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
         try {
             Ticket[] tickets = mapper.readValue(new File(pathToTickets), Ticket[].class);
             for (Ticket ticket : tickets) {
@@ -68,7 +75,7 @@ public class Storage {
                 ticketMap.put(ticketKey, ticket);
             }
         } catch (IOException e) {
-            throw new RuntimeException("Error initializing data from file", e);
+            throw new RuntimeException("Error initializing Ticket data from file", e);
         }
         log.info("Init Tickets data");
     }
@@ -76,6 +83,7 @@ public class Storage {
     @PostConstruct
     public void initEventsData() {
         ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
         try {
             Event[] events = mapper.readValue(new File(pathToEvents), Event[].class);
             for (Event event : events) {
@@ -83,7 +91,23 @@ public class Storage {
                 eventMap.put(eventKey, event);
             }
         } catch (IOException e) {
-            throw new RuntimeException("Error initializing data from file", e);
+            throw new RuntimeException("Error initializing Event data from file", e);
+        }
+        log.info("Init Events Data");
+    }
+
+    @PostConstruct
+    public void initEventsDataByDate() {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+        try {
+            Event[] events = mapper.readValue(new File(pathToEvents), Event[].class);
+            for (Event event : events) {
+                EventKeyByDate eventKeyByDate = new EventKeyByDate(event.getEventDateTime());
+                eventDateMap.put(eventKeyByDate, event);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Error initializing Event data from file", e);
         }
         log.info("Init Events Data");
     }

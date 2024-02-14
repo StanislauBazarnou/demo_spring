@@ -1,25 +1,28 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
     http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <!-- Services -->
-    <bean id="userServiceImpl" class="com.example.UserService" />
-    <bean id="eventServiceImpl" class="com.example.EventService" />
-    <bean id="ticketServiceImpl" class="com.example.TicketService" />
+    <bean id="userService" class="com.example.demo.services.UserServiceImpl" />
+    <bean id="eventService" class="com.example.demo.services.EventServiceImpl" />
+    <bean id="ticketService" class="com.example.demo.services.TicketServiceImpl" />
 
     <!-- Bean for the facade and wire its dependencies -->
-    <bean id="bookingFacade" class="com.example.BookingFacadeImpl">
-        <constructor-arg name="userServiceImpl" ref="userServiceImpl" />
-        <constructor-arg name="eventServiceImpl" ref="eventServiceImpl" />
-        <constructor-arg name="ticketServiceImpl" ref="ticketServiceImpl" />
+    <bean id="bookingFacade" class="com.example.demo.services.BookingFacadeImpl">
+        <constructor-arg name="userService" ref="userService" />
+        <constructor-arg name="eventService" ref="eventService" />
+        <constructor-arg name="ticketService" ref="ticketService" />
+    </bean>
+
+    <bean id="userDao" class="com.example.demo.dao.UserDao">
+        <constructor-arg name="storage" ref="storage" />
     </bean>
 
     <!-- Beans for DAOs and other components -->
     <bean id="eventDao" class="com.example.demo.dao.EventDao" />
     <bean id="ticketDao" class="com.example.demo.dao.TicketDao" />
-    <bean id="userDao" class="com.example.demo.dao.UserDao" />
-
+    <bean id="storage" class="com.example.demo.Storage" />
 
     <!-- In a modern Spring project, if you're using Spring Boot, PropertyPlaceholderConfigurer
     is included by default and you don't need to define it explicitly in the XML configuration -->

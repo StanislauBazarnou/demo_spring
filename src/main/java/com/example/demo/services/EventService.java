@@ -6,5 +6,6 @@ import java.time.LocalDateTime;
 
 public interface EventService {
     Event createEvent(String eventName, LocalDateTime date);
-    Event getEvent(long eventId);
+    Event getEventById(long eventId);
+    Event getEventByDate(LocalDateTime eventDateTime);
 }

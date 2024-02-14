@@ -20,13 +20,17 @@ public class EventServiceImpl implements EventService {
     public Event createEvent(String eventName, LocalDateTime date) {
         Event event = new Event();
         event.setEventName(eventName);
-        event.setEventDate(date);
+        event.setEventDateTime(date);
         eventDao.save(event);
         log.info("Event is created: {}", event);
         return event;
     }
 
-    public Event getEvent(long eventId) {
-        return eventDao.getById(eventId);
+    public Event getEventById(long eventId) {
+        return eventDao.getEventById(eventId);
+    }
+
+    public Event getEventByDate(LocalDateTime eventDateTime) {
+        return eventDao.getEventByDate(eventDateTime);
     }
 }

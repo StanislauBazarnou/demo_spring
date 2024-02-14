@@ -10,5 +10,5 @@ import java.time.LocalDateTime;
 public class Event {
     private long eventId;
     private String eventName;
-    private LocalDateTime eventDate;
+    private LocalDateTime eventDateTime;
 }
