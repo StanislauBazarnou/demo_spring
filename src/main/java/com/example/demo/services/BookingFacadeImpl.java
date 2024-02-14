@@ -22,10 +22,10 @@ public class BookingFacadeImpl implements BookingFacade {
     @Override
     public void bookEvent(User user, Event event, int seatNumber) {
         User actualUser = userService.getUser(user.getUserId());
-        Event actualEvent = eventService.createEvent(event.getEventName(), event.getEventDate());
+        Event actualEvent = eventService.createEvent(event.getEventName(), event.getEventDateTime());
         long userId = actualUser.getUserId();
         long eventId = actualEvent.getEventId();
-        LocalDateTime eventDateTime = actualEvent.getEventDate();
+        LocalDateTime eventDateTime = actualEvent.getEventDateTime();
         ticketService.bookTicket(seatNumber, eventDateTime, userId, eventId);
         log.info("Event is booked: {}", event);
     }

@@ -40,20 +40,20 @@ class BookingFacadeImplTest {
 
         Event event = new Event();
         event.setEventId(1);
-        event.setEventDate(LocalDateTime.now());
+        event.setEventDateTime(LocalDateTime.now());
 
         int seatNumber = 23;
 
         when(userService.getUser(user.getUserId())).thenReturn(user);
-        when(eventService.createEvent(event.getEventName(), event.getEventDate())).thenReturn(event);
+        when(eventService.createEvent(event.getEventName(), event.getEventDateTime())).thenReturn(event);
 
         // when
         bookingFacadeImpl.bookEvent(user, event, seatNumber);
 
         // then
         verify(userService, times(1)).getUser(user.getUserId());
-        verify(eventService, times(1)).createEvent(event.getEventName(), event.getEventDate());
+        verify(eventService, times(1)).createEvent(event.getEventName(), event.getEventDateTime());
         verify(ticketService, times(1))
-                .bookTicket(seatNumber, event.getEventDate(), user.getUserId(), event.getEventId());
+                .bookTicket(seatNumber, event.getEventDateTime(), user.getUserId(), event.getEventId());
     }
 }
