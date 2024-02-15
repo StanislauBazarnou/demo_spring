@@ -17,7 +17,6 @@ import java.time.LocalDateTime;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@ContextConfiguration(locations = "classpath:applicationContext.xml")
 class IntegrationTest {
 
     @Autowired
