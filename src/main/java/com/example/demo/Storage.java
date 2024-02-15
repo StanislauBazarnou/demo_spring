@@ -7,7 +7,6 @@ import jakarta.annotation.PostConstruct;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,7 +16,6 @@ import java.util.List;
 import java.util.Map;
 
 @Slf4j
-@Component
 @Getter
 public class Storage {
     @Value("${path.to.users}")

@@ -16,7 +16,6 @@ public class UserDao {
     private final Map<UserKey, User> userMap;
     private final Storage storage;
 
-    @Autowired
     public UserDao(Storage database) {
         this.userMap = database.getUserMap();
         this.storage = database;
